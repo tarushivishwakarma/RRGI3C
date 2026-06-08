@@ -1,0 +1,26 @@
+git init -- Initialize the Empty Repo
+git add . -- add the files
+git commit -m "" -- Giving Commit messages
+git branch -M main/master -- defining a branch
+git remote add origin <Loctaion of the Repo> -- giving Remote Location
+git push -u origin main/master -- pushing the code
+
+git add . -- add the files
+git commit -m "" -- Giving Commit messages
+git push origin main/master -- pushing to the branch
+
+
+git status -- status of the apllication
+git log -- for checcking logs
+git remote -v --  to check location of git
+
+git clone <repo Link> -- clone the other public Repository
+git pull origin main/master -- pull the latest code from the code 
+
+
+git branch <brnach name> -- creating new branches
+git branch -- checking all branches
+git checkout <branchname> -- one branch to other branch
+
+ 
+
