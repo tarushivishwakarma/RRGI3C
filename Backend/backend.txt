@@ -1,0 +1,5 @@
+go for working directory
+npm init -y == initialize package.json
+create a main file 
+npm i express == install express
+import express by uisng require == import express and create server
