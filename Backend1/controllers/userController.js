@@ -2,6 +2,7 @@ const Users= require('../models/userSchema')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
+
 const SECRET= "BharathReddy"
 
 const login = async(req,res)=>{
@@ -53,25 +54,19 @@ try {
 
 const uploadFiles = async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ message: 'No file uploaded. Use multipart/form-data with field name "image".' })
-        }
-
+        
+        
         return res.status(200).json({
             message: 'File uploaded',
             file: {
                 originalName: req.file.originalname,
-                mimeType: req.file.mimetype,
-                size: req.file.size,
-                url: req.file.path || req.file.location || req.file.secure_url
             }
         })
     } catch (error) {
-        console.error('Upload error:', error)
+     
         return res.status(500).json({
             message: 'Upload failed',
-            error: error.message || error,
-            stack: error.stack
+               error
         })
     }
 }
