@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {toast,ToastContainer} from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 const TeacherDashboard = () => {
+  const navigate = useNavigate()
   const id =localStorage.getItem("id")
   const token = localStorage.getItem("token")
   const[data, setData]= useState({})
   const[allProjects , setAllProjects]=useState([])
+  const[approvedProjects , setApprovedProjects]=useState([])
+  const[rejectedProjects , setRejectedProjects]=useState([])
 
   const fetchUser=async()=>{
 try {
@@ -35,6 +39,36 @@ const fetchProjects =async()=>{
   }
 } 
 
+
+const fetchApproveProjects =async()=>{
+  try {
+    const projects = await axios.get(`http://localhost:8000/api/teacher/projects`,{
+      headers:{
+        teacherid:`${id}`
+      }
+    })
+     const approveProjects = projects.data.filter(project => project.status === "approved")
+     setApprovedProjects(approveProjects)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const fetchRejectProjects =async()=>{
+  try {
+    const projects = await axios.get(`http://localhost:8000/api/teacher/projects`,{
+      headers:{
+        teacherid:`${id}`
+      }
+    })
+     const rejectProjects = projects.data.filter(project => project.status === "rejected")
+     setRejectedProjects(rejectProjects)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 const approved = async(pid)=>{
   try {
     
@@ -58,13 +92,20 @@ const Rejected = async(pid)=>{
   useEffect(()=>{
     fetchUser(),
     fetchProjects()
+    fetchApproveProjects()
+    fetchRejectProjects()
   },[])
+  
+  const logout =()=>{
+    localStorage.clear()
+    navigate("/")
+  }
 
   return (
     <div>
      <header className='bg-blue-300 flex mb-10'>
         <h1 className='text-2xl p-3'>Welcome {data.name}</h1>
-        <button className='bg-red-500 m-2 p-1 rounded-lg '>Logout</button>
+        <button className='bg-red-500 m-2 p-1 rounded-lg ' onClick={logout}>Logout</button>
     </header>
     <div className='w-full '>
   <h1 className='text-center text-5xl mb-10'>Project Submitted by students</h1>
@@ -92,6 +133,36 @@ const Rejected = async(pid)=>{
   })
 }
       </div>
+    </div>
+    <div className='w-full grid grid-cols-2 mb-30'>
+      <div className='w-3/4 m-auto '>
+    <h1>Approved Projects</h1>
+    <div className='bg-green-200'>
+      {
+        approvedProjects.map((project)=>{
+          return (
+            <>
+           <p>Project name:{project.project}</p>
+            </>
+          )
+        })
+      }
+    </div>
+    </div>
+   <div className='w-3/4 m-auto'>
+    <h1>Rejected Projects</h1>
+    <div className='bg-red-200 '>
+      {
+        rejectedProjects.map((project)=>{
+          return (
+            <>
+           <p>Project name:{project.project}</p>
+            </>
+          )
+        })
+      }
+    </div>
+    </div>
     </div>
     <ToastContainer/>
     </div>
