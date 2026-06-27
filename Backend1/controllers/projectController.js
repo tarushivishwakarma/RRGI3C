@@ -32,4 +32,28 @@ try {
 }
 }
 
-module.exports ={addProject , approveProject,rejectProject}
+const studentProjects =async(req,res)=>{
+try {
+    const studentId = req.headers.studentid
+    if(!studentId){
+      return res.status(400).json({message:"Id is required"})
+    }
+
+    const projects = await Project.find({studentId}).populate("teacherId" , "name email")
+  res.status(200).json(projects)
+
+} catch (error) {
+    res.status(400).json(error)
+}
+}
+
+const deleteProject =async(req,res)=>{
+try {
+    const deleteProject = await Project.findByIdAndDelete(req.params.id)
+    res.status(200).json({message:"Project deleted Sucessfully"})
+} catch (error) {
+     res.status(400).json(error)
+}
+}
+
+module.exports ={addProject , approveProject,rejectProject , studentProjects ,deleteProject}

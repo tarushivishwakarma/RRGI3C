@@ -72,4 +72,15 @@ const uploadFiles = async (req, res) => {
     }
 }
 
-module.exports = {login, register, dashboard, uploadFiles }
+const teachers = async(req,res)=>{
+    try {
+        const allteachers = await Users.find({
+            role:"Teacher"
+        })
+        res.status(200).json(allteachers)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+module.exports = {login, register, dashboard, uploadFiles , teachers }
