@@ -1,7 +1,7 @@
 
 
 
-const API = 'http://localhost:8000/api'
+const API = 'https://backend-rrgi.onrender.com/api'
 
 
 export default API
