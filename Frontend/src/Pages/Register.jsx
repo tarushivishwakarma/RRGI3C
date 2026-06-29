@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {toast,ToastContainer} from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import API from '../Services'
 
 const Register = () => {
     const navigate = useNavigate()
@@ -19,7 +20,7 @@ const register =async(e)=>{
     }
    
     try {
-        const details= await axios.post('http://localhost:8000/api/signup',{
+        const details= await axios.post(`${API}/signup`,{
             name,
             email,
             password,

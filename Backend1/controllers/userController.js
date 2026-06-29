@@ -38,26 +38,26 @@ return res.status(200).json({mesaage:"welcome Teacher",role:userData.role,id:use
 const register = async(req,res)=>{
 try {
     const addUser = await Users.create(req.body)
-    const trasporter = nodemailer.createTransport({
-    host:"smtp.gmail.com",
-    port:465,
-    secure:true,
-    auth:{
-        user:"your mail",
-        pass:"your id"
-    },
-    tls:{
-        rejectUnauthorized:false
-    }
-   })
-   trasporter.sendMail({
-    from:"your mail",
-    to:`${addUser.email}`,
-    subject:"Conifirming of registration",
-    text:"Registeration Sucessfull "
-   },(err)=>{
-    console.log(error)
-   })
+//     const trasporter = nodemailer.createTransport({
+//     host:"smtp.gmail.com",
+//     port:465,
+//     secure:true,
+//     auth:{
+//         user:"your mail",
+//         pass:"your id"
+//     },
+//     tls:{
+//         rejectUnauthorized:false
+//     }
+//    })
+//    trasporter.sendMail({
+//     from:"your mail",
+//     to:`${addUser.email}`,
+//     subject:"Conifirming of registration",
+//     text:"Registeration Sucessfull "
+//    },(err)=>{
+//     console.log(err)
+//    })
     res.status(201).json({message:"User added Sucessfully u Can login now" , addUser})
 } catch (error) {
     res.status(400).json(error)

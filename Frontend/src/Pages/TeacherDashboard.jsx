@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {toast,ToastContainer} from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import API from '../Services'
 const TeacherDashboard = () => {
   const navigate = useNavigate()
   const id =localStorage.getItem("id")
@@ -13,7 +14,7 @@ const TeacherDashboard = () => {
 
   const fetchUser=async()=>{
 try {
-    const user = await axios.get(`http://localhost:8000/api/dashboard/${id}`,{
+    const user = await axios.get(`${API}/dashboard/${id}`,{
         headers:{
             Authorization:`Bearer ${token}`
         }
@@ -27,7 +28,7 @@ try {
 
 const fetchProjects =async()=>{
   try {
-    const projects = await axios.get(`http://localhost:8000/api/teacher/projects`,{
+    const projects = await axios.get(`${API}/teacher/projects`,{
       headers:{
         teacherid:`${id}`
       }
@@ -42,13 +43,14 @@ const fetchProjects =async()=>{
 
 const fetchApproveProjects =async()=>{
   try {
-    const projects = await axios.get(`http://localhost:8000/api/teacher/projects`,{
+    const projects = await axios.get(`${API}/teacher/projects`,{
       headers:{
         teacherid:`${id}`
       }
     })
      const approveProjects = projects.data.filter(project => project.status === "approved")
      setApprovedProjects(approveProjects)
+     fetchProjects()
   } catch (error) {
     console.log(error)
   }
@@ -56,13 +58,14 @@ const fetchApproveProjects =async()=>{
 
 const fetchRejectProjects =async()=>{
   try {
-    const projects = await axios.get(`http://localhost:8000/api/teacher/projects`,{
+    const projects = await axios.get(`${API}/teacher/projects`,{
       headers:{
         teacherid:`${id}`
       }
     })
      const rejectProjects = projects.data.filter(project => project.status === "rejected")
      setRejectedProjects(rejectProjects)
+     fetchProjects()
   } catch (error) {
     console.log(error)
   }
@@ -72,16 +75,16 @@ const fetchRejectProjects =async()=>{
 const approved = async(pid)=>{
   try {
     
-  const approve = await axios.patch(`http://localhost:8000/api/project/${pid}/approve`)
+  const approve = await axios.patch(`${API}/project/${pid}/approve`)
     toast.success("Project Approved")
-  fetchProjects()
+  fetchProjects() 
   } catch (error) {
     
   }
 }
 const Rejected = async(pid)=>{
   try {
-    const reject = await axios.patch(`http://localhost:8000/api/project/${pid}/reject`)
+    const reject = await axios.patch(`${API}/project/${pid}/reject`)
     fetchProjects()
     toast.warn("Project Rejected")
   } catch (error) {
